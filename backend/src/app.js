@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
-app.get('/api/health', (req, res) => {
+app.get('/api/v1/health', (req, res) => {
   res.json({ 
     status: 'Server is running',
     timestamp: new Date().toISOString()

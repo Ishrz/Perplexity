@@ -9,6 +9,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
+import authRouter from './routes/auth.routes.js';
+
+app.use("/api/v1/auth" , authRouter)
+
+
+
+
+
+
+//health check 
 app.get('/api/v1/health', (req, res) => {
   res.json({ 
     status: 'Server is running',

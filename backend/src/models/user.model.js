@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
       required: true,
       trim: true
@@ -12,13 +12,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      lowercase: true,
-      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      lowercase: true
+     
     },
     password: {
       type: String,
       required: true,
-      minlength: 8,
+      minlength: 5,
       select: false
     },
     verified: {
@@ -34,14 +34,15 @@ const userSchema = new mongoose.Schema(
 // Middleware: Hash password before saving
 userSchema.pre('save', async function(next) {
   // Only hash if password is new or modified
-  if (!this.isModified('password')) return next();
+  if (!this.isModified('password')) return ;
 
   try {
  
     this.password = await bcrypt.hash(this.password, 10);
-    next();
+    // next();
   } catch (error) {
-    next(error);
+    // next(error);
+    throw error
   }
 });
 

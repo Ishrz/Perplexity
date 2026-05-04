@@ -178,3 +178,26 @@ export const login = async (req,res) => {
 
 
 }
+
+
+export const getMe = async (req,res) =>{
+
+    const id = req?.user?.id
+
+    const user = await userModel.findById(id).select("-password")
+
+    if(!user){
+        return res.status(401).json({
+            message:"user not found",
+            success:false
+        })
+    }
+
+    res.status(200).json({
+        message:"user profile",
+        success:true,
+        user
+    })
+
+   
+}

@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js"
 import { sendEmail } from "../services/mail.service.js"
+import jwt from "jsonwebtoken"
 
 export const register = async (req,res)=>{
 
@@ -21,6 +22,8 @@ export const register = async (req,res)=>{
         password
     })
 
+    const emailVerificationToken = jwt.sign({email:user.email} , process.env.JWT_SECRET)
+
     sendEmail({
     to: user.email,
     subject: "Welcome to Perplexity – Your AI Journey Starts Here! ",
@@ -35,12 +38,12 @@ export const register = async (req,res)=>{
         <div style="padding: 30px; line-height: 1.6; color: #333;">
             <h2 style="color: #000;">Hello ${user.username},</h2>
             <p>Welcome to the family! We're thrilled to have you with us.</p>
-            <p>Perplexity is designed to help you discover knowledge and find answers faster than ever. Your account has been successfully created, and you're all set to start exploring.</p>
+            <p>Perplexity is designed to help you discover knowledge and find answers faster than ever. Your account has been successfully created, please verify your email first.</p>
             
             <div style="text-align: center; margin: 30px 0;">
-                <a href="https://your-app-link.com/login" 
+                <a href="http://localhost:3000/api/v1/auth/verify-email?token=${emailVerificationToken}"
                    style="background-color: #10a37f; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-                   Start Exploring
+                   Verify Email
                 </a>
             </div>
 
@@ -68,4 +71,15 @@ export const register = async (req,res)=>{
         success:true
     })
 
+}
+
+export const verifyEmail = async (req,res) =>{
+    const {token} = req.query
+    console.log(token) 
+
+    const decoded = jwt.verify(token , process.env.JWT_SECRET)
+
+    console.log(decoded)
+
+    res.send(`<html><b>congo</b></html>`)
 }

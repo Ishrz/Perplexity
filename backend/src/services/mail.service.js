@@ -32,11 +32,11 @@ export const sendEmail = async ({to, subject, text=null, html}) => {
 
     console.log(info);
 
-    console.log("______________________");
-    console.log("message sent : %s", info.messageId);
-    console.log("______________________");
+    // console.log("______________________");
+    // console.log("message sent : %s", info.messageId);
+    // console.log("______________________");
 
-    console.log("preview url : %s ", nodemailer.getTestMessageUrl(info));
+    // console.log("preview url : %s ", nodemailer.getTestMessageUrl(info));
   } catch (error) {
     console.log("error sending email : ", error);
   }

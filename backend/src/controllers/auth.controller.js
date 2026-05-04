@@ -79,7 +79,23 @@ export const verifyEmail = async (req,res) =>{
 
     const decoded = jwt.verify(token , process.env.JWT_SECRET)
 
-    console.log(decoded)
+    // console.log(decoded)
 
-    res.send(`<html><b>congo</b></html>`)
+    const {email } = decoded
+
+    const user = await userModel.findOne({email})
+
+    if(!user){
+        return res.status(404).json({
+            message:"token verification faild, user not found",
+            success:false,
+            error:"user not found"
+
+        })
+    }
+
+    user.verified = true;
+    user.save()
+
+    res.send(`<html><b>user verification successfull</b></html>`)
 }

@@ -34,3 +34,18 @@ export const validateRegister = [
   
   handleValidationErrors
 ];
+
+
+export const validateLogin = [
+  body("email")
+  .notEmpty().withMessage('Email is required')
+  .trim()
+  .isEmail().withMessage("Invalid email format"),
+
+  body("password")
+  .trim()
+  .notEmpty().withMessage("Password is required"),
+
+  handleValidationErrors
+  
+]

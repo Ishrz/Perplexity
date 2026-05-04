@@ -74,8 +74,10 @@ export const register = async (req,res)=>{
 }
 
 export const verifyEmail = async (req,res) =>{
-    const {token} = req.query
-    console.log(token) 
+   try {
+
+     const {token} = req.query
+    // console.log(token) 
 
     const decoded = jwt.verify(token , process.env.JWT_SECRET)
 
@@ -98,4 +100,81 @@ export const verifyEmail = async (req,res) =>{
     user.save()
 
     res.send(`<html><b>user verification successfull</b></html>`)
+    
+   } catch (error) {
+    return res.status(400).json({
+        message:"token verification failed",
+        success:false,
+        error:error
+    })
+   }
+}
+
+export const login = async (req,res) => {
+    try {
+
+        const {email , password} = req.body
+
+    const user = await userModel.findOne({email}).select("+password")
+
+    if(!user){
+        return res.status(404).json({
+            message:"user not found",
+            success:false,
+            error:"user not ound"
+        })
+    }
+
+    // console.log(user)
+    const isPasswordMatch = await user.comparePassword(password)
+
+    if(!isPasswordMatch){
+        return res.status(400).json({
+            message:"invalid Credntial , wrong password",
+            success:false,
+            error:"password not match"
+        })
+    }
+
+    if(!user.verified){
+        return res.status(400).json({
+            message:"email is not vverified , please verify first",
+            success:false,
+            error:"verification failed"
+        })
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        username: user.username,
+      },
+      process.env.JWT_SECRET,
+      {expiresIn:"7d"}
+    );
+
+    res.cookie('token' ,token)
+
+    res.status(200).json({
+        message:"user login successfully",
+        success:true,
+        user:{
+            username:user.username,
+            email:user.email,
+            id:user._id
+        }
+    })
+        
+    } catch (error) {
+        return res.status(400).json({
+            message:"login failed",
+            success:false,
+            error:error.stack
+        })
+    }
+
+
+
+
+
 }

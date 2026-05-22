@@ -20,5 +20,20 @@ export const useAuth = () =>{
         }
     }
 
+    const login = async ({email, password}) => {
+        try{
+            dispatch(setLoading(true))
+            const data = await login({email,password})
+            dispatch( setUser(data.user))
+
+        }catch(error){
+
+            dispatch( setLoading(error.response?.data?.message || "login failed"))
+
+        }finally{
+           dispatch( setLoading(false) )
+        }
+    }
+
 
 }

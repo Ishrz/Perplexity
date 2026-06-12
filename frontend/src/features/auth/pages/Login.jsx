@@ -19,7 +19,7 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
         <div className="bg-gray-800 rounded-lg shadow-2xl p-8 border border-green-600">
           {/* Header */}

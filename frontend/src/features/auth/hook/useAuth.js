@@ -20,7 +20,7 @@ export const useAuth = () =>{
         }
     }
 
-    const login = async ({email, password}) => {
+    const handelLogin = async ({email, password}) => {
         try{
             dispatch(setLoading(true))
             const data = await login({email,password})

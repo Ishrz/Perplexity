@@ -4,9 +4,7 @@ function App() {
 
   return (
    <>
-   <div className="flex item-center justify-center">
    <RouterProvider router={router}/>
-   </div>
    </>
   )
 }

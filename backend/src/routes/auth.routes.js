@@ -7,8 +7,8 @@ const authRouter = Router()
 import { register ,verifyEmail , login , getMe}  from "../controllers/auth.controller.js"
 
 //middlewares
-import { validateRegister , validateLogin } from "../validators/auth.validator.js"
-import {authUser} from "../middlewares/auth.middleware.js"
+import { validateRegister , validateLogin } from "../middlewares/validators/auth.validator.js"
+import {authUser} from "../middlewares/auth/auth.middleware.js"
 
 
 

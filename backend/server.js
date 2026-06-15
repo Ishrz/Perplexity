@@ -4,7 +4,7 @@ import { connectDB } from './src/config/database.js';
 
 import { giminiModelCall } from './src/services/ai.service.js';
 
-giminiModelCall()
+
 
 const PORT = process.env.PORT || 5000;
 

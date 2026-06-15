@@ -1,22 +1,43 @@
-import React, { useState } from 'react'
-
+import React, { useState } from "react";
+import { useAuth } from "../hook/useAuth.js";
+import { useNavigate, Navigate } from "react-router";
+import { useSelector } from "react-redux";
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    
+  // const user = useSelector(state => state.auth.user)
+  // const loading = useSelector(state => state.auth.loading)
+  const navigate = useNavigate();
+  // console.log(user)
+  // console.log(loading)
+
+  // if(loading) return <h1>Loading.....</h1>
+  // if(user) return <Navigate to="/" replace/>
+
+
+  const { handelLogin } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     if (!email || !password) {
-      setError('Please fill in all fields')
-      return
+      setError("Please fill in all fields");
+      return;
     }
-    
-    setError('')
-    console.log('Login Data:', { email, password })
+
+    setError("");
+    // console.log('Login Data:', { email, password })
     // Add your login logic here
-  }
+    try {
+      const data = await handelLogin({ email, password });
+      console.log(data);
+      navigate("/")
+    } catch (error) {
+      console.log("error at login" , error)
+    }
+  };
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
@@ -24,7 +45,9 @@ const Login = () => {
         <div className="bg-gray-800 rounded-lg shadow-2xl p-8 border border-green-600">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-green-400 mb-2">Welcome Back</h1>
+            <h1 className="text-4xl font-bold text-green-400 mb-2">
+              Welcome Back
+            </h1>
             <p className="text-green-300">Sign in to your account</p>
           </div>
 
@@ -39,7 +62,10 @@ const Login = () => {
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-green-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-green-300 mb-2"
+              >
                 Email Address
               </label>
               <input
@@ -54,7 +80,10 @@ const Login = () => {
 
             {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-green-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-green-300 mb-2"
+              >
                 Password
               </label>
               <input
@@ -79,8 +108,11 @@ const Login = () => {
           {/* Footer */}
           <div className="mt-6 text-center">
             <p className="text-green-300">
-              Don't have an account?{' '}
-              <a href="/register" className="font-semibold text-green-400 hover:text-green-300 underline">
+              Don't have an account?{" "}
+              <a
+                href="/register"
+                className="font-semibold text-green-400 hover:text-green-300 underline"
+              >
                 Sign up
               </a>
             </p>
@@ -88,7 +120,7 @@ const Login = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

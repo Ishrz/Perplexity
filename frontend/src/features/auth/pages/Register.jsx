@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
+import { useAuth } from '../hook/useAuth'
+import { useNavigate } from 'react-router'
 
 const Register = () => {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const {handelRegister} = useAuth()
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault()
     
     if (!email || !username || !password) {
@@ -18,10 +22,18 @@ const Register = () => {
       setError('Password must be at least 6 characters long')
       return
     }
+
+    const payload = {
+      email,
+      username,
+      password
+    }
     
     setError('')
-    console.log('Register Data:', { email, username, password })
+    // console.log('Register Data:', { email, username, password })
     // Add your register logic here
+    const data = await handelRegister(payload)
+    navigate("/")
   }
 
   return (

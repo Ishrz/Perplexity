@@ -43,3 +43,66 @@ export const sendMessage = async (req, res) => {
     aiMessage,
   });
 };
+
+
+export const getChats = async (req,res) => {
+  // const {chatId} = req.parmas
+
+  const chats = await chatModel.find({
+    user:req.user.id,
+  })
+
+  if(!chats) return res.status(404).json({
+    message:"chat not found"
+  })
+
+  res.status(200).json({
+    message:"chat fetched successfuly",
+    chats
+  })
+
+}
+
+export const getMessages = async (req,res) => {
+  const {chatId} = req.params
+  console.log(chatId)
+  const chat = await chatModel.findOne({
+      _id:chatId,
+      user: req.user.id
+  })
+
+  if(!chat) return res.status(404).json({
+    message:"No chat and Messages found"
+  })
+
+  const messages = await messageModel.find({
+    chat:chat._id
+  })
+
+  res.status(200).json({
+    message:"Messages fetched Successfully",
+    messages
+  })
+
+}
+
+export const chatDelete = async (req,res) =>{
+
+  const {chatId} = req.params
+
+  const chat = await chatModel.findByIdAndDelete({
+    _id:chatId,
+    user:req.user.id
+  })
+
+  await messageModel.deleteMany({
+    chat:chat._id
+  })
+
+  if(!chat) return res.status(404).json({message:"no chat found"})
+  
+  res.status(204).json({
+    message:"chat deleted successfully"
+  })
+
+}

@@ -3,7 +3,7 @@ import chatModel from "../models/chat.model.js";
 import messageModel from "../models/message.model.js";
 
 export const sendMessage = async (req, res) => {
-  const { userMessage, chat: chatId } = req.body;
+  const { message:userMessage, chat: chatId } = req.body;
 
   let title = null,
     chat = null;

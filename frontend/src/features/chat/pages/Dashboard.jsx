@@ -13,7 +13,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     chat.initializeSocketConnection()
-    chat.handleGetChats()
+    // chat.handleGetChats()
   }, [])
 
   const handleSubmitMessage = (event) => {
@@ -23,7 +23,7 @@ const Dashboard = () => {
     if (!trimmedMessage) {
       return
     }
-
+    console.log(currentChatId)
     chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId })
     setChatInput('')
   }

@@ -17,7 +17,7 @@ const mistralModel = new ChatMistralAI({
 const searchInternetTool = tool(SearchInternet,{
   name:"internetSearch",
   description:"use this tool to get latest information from internet",
-  schema:z.Object({
+  schema:z.object({
     query:z.string().describe("the search query to look up on the internet")
   })
 })

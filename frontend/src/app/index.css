@@ -3,3 +3,19 @@
 body{
     background-color: rgb(66, 65, 65);
 }
+
+.messages::-webkit-scrollbar{
+    display: none;
+}
+
+@layer utilities {
+  /* For Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* For IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}

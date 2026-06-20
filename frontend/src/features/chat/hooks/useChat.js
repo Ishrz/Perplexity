@@ -12,8 +12,9 @@ export const useChat = () => {
     async function handleSendMessage({ message, chatId }) {
         
         dispatch(setLoading(true))
-        const data = await sendMessage({ message, chatId })
-        console.log(data)
+        const data = await sendMessage({ message, chat:chatId })
+        console.log("[HOOK]:handel chat")
+        console.log(chatId)
         const { chat, aiMessage } = data
         if (!chatId)
             dispatch(createNewChat({
@@ -30,7 +31,8 @@ export const useChat = () => {
             content: aiMessage.content,
             role: aiMessage.role,
         }))
-        dispatch(setCurrentChatId(chat._id))
+       
+        dispatch(setCurrentChatId(chatId || chat._id))
     }
 
     async function handleGetChats() {
